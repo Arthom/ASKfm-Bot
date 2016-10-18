@@ -1,0 +1,25 @@
+{
+	"name": "Arthom/askfm-bot",
+	"description": "ASKfm Bot",
+	"license": "MIT",
+	"authors": [{
+		"name": "Matej Gleza",
+		"email": "matejgleza@gmail.com",
+		"homepage": "http://arthom.eu/"
+	}],
+	"require": {
+		"php": ">=5.4.0",
+		"anlutro/curl": "*"
+	},
+	"require-dev": {
+		"mockery/mockery": "0.9.*"
+	},
+	"autoload": {
+		"psr-4": {"anlutro\\cURL\\": "src/", "Arthom\\ASKfm\\": "src/Arthom/ASKfm/"}
+	},
+	"config": {
+		"preferred-install": "dist" 
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true
+}
