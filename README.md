@@ -8,7 +8,7 @@ Simple ASKfm bot in PHP.
 
 Requirements
 -------------
-- >= PHP 5.4.0
+- \>= PHP 5.4.0
 - cURL
 - Composer
 
@@ -23,7 +23,7 @@ Example:
 -------------
 **Create new ASKfm Bot instance:**
 
-	$bot = new Arthom\AskFMBot\Bot();
+	$bot = new Arthom\ASKfm\Bot();
 
 **Login**
 
