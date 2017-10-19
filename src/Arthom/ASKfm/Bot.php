@@ -5,13 +5,21 @@
 
 	class Bot {
 		protected $cURL;
+		protected $tokenUrl = 'http://ask.fm/matejgleza';
+		protected $loginUrl = 'http://ask.fm/login';
 
-		public function __construct() {
-			$this->cURL = new cURL();
+		public function __construct(cURL $curl = null, $tokenUrl = '', $loginUrl = '') {
+			$this->cURL = $curl ?: new cURL();
+			if (trim($tokenUrl) !== '') {
+				$this->tokenUrl = $tokenUrl;
+			}
+			if (trim($loginUrl) !== '') {
+				$this->loginUrl = $loginUrl;
+			}
 		}
 
 		public function getCSRFToken() {
-			$request = $this->cURL->newRequest('get', 'http://ask.fm/matejgleza')
+			$request = $this->cURL->newRequest('get', $this->tokenUrl)
 				->setOption(CURLOPT_COOKIEJAR, 'cookie.txt')
 				->setOption(CURLOPT_COOKIEFILE, 'cookie.txt');
 			$response = $request->send();
@@ -29,15 +37,12 @@
 				'password' => $password,
 				'remember_me' => 0
 			);
-			$request = $this->cURL->newRequest('post', 'http://ask.fm/login', $postData)
+			$request = $this->cURL->newRequest('post', $this->loginUrl, $postData)
 				->setOption(CURLOPT_COOKIEJAR, 'cookie.txt')
 				->setOption(CURLOPT_COOKIEFILE, 'cookie.txt');
 			$response = $request->send();
 
-			if (!empty($response->info['redirect_url']))
-				return true;
-
-			return false;
+			return !empty($response->info['redirect_url']);
 		}
 
 		public function ask($user, $message, $anonymous = true) {
@@ -55,9 +60,6 @@
 				->setOption(CURLOPT_COOKIEFILE, 'cookie.txt');
 			$response = $request->send();
 
-			if ($response->info['redirect_url'] === 'http://ask.fm/'.$user)
-				return true;
-
-			return false;
+			return $response->info['redirect_url'] === 'http://ask.fm/'.$user;
 		}
 	}
